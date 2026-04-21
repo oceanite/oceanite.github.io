@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dea Kristin Ginting — Blue Team Cybersecurity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #0e1b35;
+      --navy-mid:   #162545;
+      --navy-lt:    #213460;
+      --sky-deep:   #2d5f9e;
+      --sky:        #5b9bd5;
+      --sky-soft:   #a8cef0;
+      --cream:      #fdf6e8;
+      --cream-warm: #f7ead0;
+      --peach:      #f2a87e;
+      --gold:       #e8c46a;
+      --sage:       #7bab8b;
+      --sage-lt:    #b4d4be;
+      --rose:       #e8a0a8;
+      --ink:        #1a2640;
+      --muted:      #5a6e8a;
+      --line:       #d8e8f5;
+      --white:      #ffffff;
+      --body:       'Nunito', sans-serif;
+      --serif:      'Lora', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--body);
+      font-size: 15px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    /* ─── FLOATING STARS ─── */
+    .star-field {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .star {
+      position: absolute; border-radius: 50%;
+      background: var(--gold);
+      animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.15; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.4); }
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(14,27,53,0.92);
+      backdrop-filter: blur(16px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 62px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--cream);
+      font-family: var(--serif); font-size: 1.05rem; font-weight: 600;
+    }
+    /* Totoro-inspired shield shape */
+    .logo-spirit {
+      width: 32px; height: 32px; position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-spirit svg { width: 32px; height: 32px; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--sky-soft);
+      font-size: 13px; font-weight: 600; letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ─── HERO ─── */
+    #hero {
+      background: var(--navy);
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      position: relative; overflow: hidden;
+    }
+
+    /* Rolling hills at bottom */
+    .hero-hills {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      pointer-events: none; z-index: 1;
+    }
+
+    /* Floating clouds */
+    .cloud {
+      position: absolute; pointer-events: none;
+      opacity: 0.12;
+      animation: drift var(--cd, 20s) ease-in-out infinite alternate;
+    }
+    @keyframes drift {
+      from { transform: translateX(0) translateY(0); }
+      to   { transform: translateX(var(--cx, 30px)) translateY(var(--cy, -12px)); }
+    }
+
+    .hero-content {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 120px 3rem 180px;
+      max-width: 700px; margin: 0 auto; width: 100%;
+      position: relative; z-index: 2;
+    }
+
+    .spirit-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(123,171,139,0.18);
+      border: 1px solid rgba(123,171,139,0.4);
+      border-radius: 100px; padding: 5px 16px 5px 10px;
+      margin-bottom: 1.8rem;
+    }
+    .spirit-badge .leaf { font-size: 16px; }
+    .spirit-badge span {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--sage-lt);
+    }
+
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 600; color: var(--cream);
+      line-height: 1.08; margin-bottom: 0.6rem;
+    }
+    .hero-name em {
+      font-style: italic; color: var(--gold);
+    }
+    .hero-role {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 700; color: var(--sky-soft);
+      letter-spacing: 0.05em; margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+    .hero-bio {
+      font-size: 15.5px; color: rgba(255,255,255,0.58);
+      line-height: 1.85; max-width: 460px; margin-bottom: 2.5rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-ghibli {
+      background: var(--gold); color: var(--navy);
+      border: none; padding: 0.8rem 2rem;
+      font-family: var(--body); font-size: 14px; font-weight: 800;
+      border-radius: 50px; text-decoration: none; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(232,196,106,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-ghibli:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(232,196,106,0.45);
+    }
+    .btn-ghost {
+      background: transparent; color: var(--cream);
+      border: 1.5px solid rgba(255,255,255,0.22);
+      padding: 0.8rem 2rem;
+      font-family: var(--body); font-size: 14px; font-weight: 700;
+      border-radius: 50px; text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--sky-soft);
+      background: rgba(255,255,255,0.06);
+    }
+
+    /* Hero stats row */
+    .hero-stats {
+      position: absolute; bottom: 60px; left: 0; right: 0; z-index: 2;
+      display: flex; justify-content: center; gap: 0;
+    }
+    .h-stat {
+      padding: 1.2rem 2.5rem;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+    .h-stat:last-child { border-right: none; }
+    .h-stat-num {
+      font-family: var(--serif); font-size: 2rem; font-weight: 600;
+      color: var(--gold); line-height: 1;
+    }
+    .h-stat-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.38); margin-top: 4px; }
+
+    /* ─── SECTION WRAPPER ─── */
+    .s-wrap { max-width: 1080px; margin: 0 auto; padding: 6rem 2.5rem; position: relative; }
+
+    .s-eyebrow {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 0.75rem;
+    }
+    .s-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 800; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--sage);
+      background: rgba(123,171,139,0.1);
+      border: 1px solid rgba(123,171,139,0.25);
+      padding: 4px 12px; border-radius: 100px;
+    }
+    .s-line { flex: 1; height: 1px; background: var(--line); }
+    .s-heading {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 600; color: var(--navy);
+      margin-bottom: 0.4rem; line-height: 1.2;
+    }
+    .s-sub { color: var(--muted); font-size: 15px; margin-bottom: 2.75rem; }
+
+    /* ─── PROJECTS ─── */
+    #projects { background: var(--cream); }
+    .proj-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.5rem;
+    }
+    .proj-card {
+      background: var(--white);
+      border: 1.5px solid #e2d8c8;
+      border-radius: 20px;
+      padding: 1.75rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      position: relative; overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+    .proj-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--sky-deep), var(--sky-soft));
+      border-radius: 20px 20px 0 0;
+    }
+    /* Subtle watercolour wash in corner */
+    .proj-card::after {
+      content: '';
+      position: absolute; bottom: -20px; right: -20px;
+      width: 100px; height: 100px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(91,155,213,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .proj-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(14,27,53,0.1);
+      border-color: var(--sky-soft);
+    }
+    .proj-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .proj-icon {
+      width: 46px; height: 46px; border-radius: 12px;
+      background: var(--cream-warm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .proj-type {
+      font-size: 10px; font-weight: 800; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--sky-deep);
+      background: rgba(45,95,158,0.08);
+      padding: 3px 10px; border-radius: 100px;
+    }
+    .proj-title {
+      font-family: var(--serif); font-size: 1.1rem; font-weight: 600;
+      color: var(--navy); line-height: 1.3;
+    }
+    .proj-desc { color: var(--muted); font-size: 13.5px; line-height: 1.8; flex: 1; }
+    .proj-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tech-tag {
+      font-size: 11px; font-weight: 600; color: var(--navy-lt);
+      background: var(--cream); border: 1px solid #dce8f4;
+      padding: 3px 10px; border-radius: 8px;
+    }
+    .proj-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 0.75rem; border-top: 1px solid #eee8da;
+    }
+    .proj-link {
+      font-size: 13px; font-weight: 700; color: var(--sky-deep);
+      text-decoration: none; display: flex; align-items: center; gap: 5px;
+      transition: gap 0.2s, color 0.2s;
+    }
+    .proj-link:hover { color: var(--navy); gap: 9px; }
+    .proj-status { font-size: 11px; font-weight: 600; color: var(--sage); display: flex; align-items: center; gap: 5px; }
+    .s-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--sage);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* ─── CERTIFICATIONS ─── */
+    #certifications { background: var(--navy); position: relative; overflow: hidden; }
+    #certifications .s-heading { color: var(--cream); }
+    #certifications .s-sub { color: rgba(255,255,255,0.45); }
+    #certifications .s-line { background: rgba(255,255,255,0.1); }
+    /* Ghibli night sky deco */
+    .night-deco {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1.25rem;
+      position: relative; z-index: 1;
+    }
+    .cert-card {
+      background: rgba(255,255,255,0.055);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px; padding: 1.6rem;
+      display: flex; flex-direction: column; gap: 0.7rem;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .cert-card:hover {
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(232,196,106,0.4);
+      transform: translateY(-3px);
+    }
+    /* little lantern glow top-right */
+    .cert-card::after {
+      content: '';
+      position: absolute; top: -18px; right: -18px;
+      width: 70px; height: 70px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,196,106,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cert-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .cert-issuer { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }
+    .cert-year { font-size: 11px; color: rgba(255,255,255,0.35); font-weight: 600; }
+    .cert-name { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--cream); line-height: 1.4; }
+    .cert-desc { font-size: 12.5px; color: rgba(255,255,255,0.45); line-height: 1.7; }
+    .cert-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 700; color: var(--sky-soft);
+      text-decoration: none; margin-top: auto;
+      transition: color 0.2s;
+    }
+    .cert-link:hover { color: var(--gold); }
+
+    /* ─── ABOUT ─── */
+    #about { background: var(--cream-warm); }
+    .about-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 5rem; align-items: start; }
+    .about-text p { color: var(--muted); font-size: 15px; line-height: 1.9; margin-bottom: 1.2rem; }
+    .about-text p:first-of-type { font-size: 1.05rem; font-family: var(--serif); color: var(--ink); line-height: 1.8; }
+    .skills-panel { display: flex; flex-direction: column; gap: 1.25rem; }
+    .skill-group {
+      background: var(--white); border-radius: 16px;
+      padding: 1.25rem; border: 1px solid #e2d8c8;
+    }
+    .skill-group-label {
+      font-size: 10px; font-weight: 800; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--sky-deep); margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .skill-group-label span { font-size: 14px; }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-pill {
+      font-size: 12px; font-weight: 600; color: var(--navy);
+      background: var(--cream); border: 1px solid #d8e8f5;
+      padding: 4px 12px; border-radius: 10px;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact { background: var(--cream); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .contact-card {
+      background: var(--white); border: 1.5px solid #e2d8c8;
+      border-radius: 20px; padding: 1.6rem;
+      text-decoration: none;
+      display: flex; flex-direction: column; gap: 0.5rem;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .contact-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(14,27,53,0.08);
+    }
+    .contact-card-icon { font-size: 22px; margin-bottom: 4px; }
+    .contact-card-label { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sky-deep); }
+    .contact-card-value { font-size: 13px; color: var(--muted); word-break: break-all; }
+    .contact-card-arrow { font-size: 20px; color: var(--gold); margin-top: auto; font-weight: 700; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--navy);
+      padding: 1.5rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      color: rgba(255,255,255,0.3); font-size: 12px; font-weight: 600;
+    }
+    footer em { color: var(--gold); font-style: normal; }
+
+    /* ─── SCROLL FADE ─── */
+    .fade-up {
+      opacity: 0; transform: translateY(22px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fade-up.show { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 720px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links li:nth-child(3), .nav-links li:nth-child(4) { display: none; }
+      .hero-content { padding: 100px 1.5rem 160px; }
+      .hero-stats { gap: 0; }
+      .h-stat { padding: 1rem 1rem; }
+      .s-wrap { padding: 4rem 1.25rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Floating stars background -->
+<div class="star-field" aria-hidden="true" id="stars"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <div class="logo-spirit">
+      <!-- Soot-sprite-inspired shield with leaf -->
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 2C16 2 6 7 6 16c0 7 5 12 10 13 5-1 10-6 10-13C26 7 16 2 16 2z" fill="#3dd6ac" opacity="0.9"/>
+        <path d="M13 16.5l2.5 2.5 4-5" stroke="#0e1b35" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="16" cy="10" r="2" fill="#0e1b35" opacity="0.35"/>
+      </svg>
+    </div>
+    YN.
+  </a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <!-- Floating clouds -->
+  <div class="cloud" style="top:18%;left:5%;--cd:22s;--cx:40px;--cy:-10px;" aria-hidden="true">
+    <svg width="180" height="60" viewBox="0 0 180 60"><ellipse cx="90" cy="35" rx="80" ry="22" fill="white"/><ellipse cx="60" cy="28" rx="40" ry="22" fill="white"/><ellipse cx="120" cy="26" rx="36" ry="20" fill="white"/></svg>
+  </div>
+  <div class="cloud" style="top:10%;right:8%;--cd:28s;--cx:-30px;--cy:8px;" aria-hidden="true">
+    <svg width="130" height="45" viewBox="0 0 130 45"><ellipse cx="65" cy="28" rx="58" ry="16" fill="white"/><ellipse cx="40" cy="22" rx="30" ry="16" fill="white"/><ellipse cx="92" cy="20" rx="27" ry="15" fill="white"/></svg>
+  </div>
+  <div class="cloud" style="top:55%;left:60%;--cd:18s;--cx:20px;--cy:-15px;" aria-hidden="true">
+    <svg width="100" height="35" viewBox="0 0 100 35"><ellipse cx="50" cy="22" rx="44" ry="12" fill="white"/><ellipse cx="32" cy="18" rx="22" ry="12" fill="white"/><ellipse cx="70" cy="17" rx="20" ry="11" fill="white"/></svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="spirit-badge"><span class="leaf">🌿</span><span>Blue Team Specialist</span></div>
+    <h1 class="hero-name">Your <em>Name</em><br>Here.</h1>
+    <p class="hero-role">Cybersecurity Analyst</p>
+    <p class="hero-bio">A short, warm sentence about who you are — what you protect, what you're curious about, and the kind of work that makes you excited to open your laptop.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-ghibli">See My Work</a>
+      <a href="resume.pdf" target="_blank" class="btn-ghost">Download CV</a>
+    </div>
+  </div>
+
+  <!-- Rolling hills -->
+  <div class="hero-hills" aria-hidden="true">
+    <svg viewBox="0 0 1440 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:140px;">
+      <path d="M0 100 Q200 40 400 80 Q600 120 800 60 Q1000 10 1200 70 Q1350 100 1440 55 L1440 140 L0 140 Z" fill="#fdf6e8" opacity="0.18"/>
+      <path d="M0 120 Q180 70 360 95 Q540 118 720 75 Q900 35 1080 90 Q1260 130 1440 80 L1440 140 L0 140 Z" fill="#fdf6e8" opacity="0.28"/>
+      <path d="M0 135 Q200 100 400 115 Q620 130 800 105 Q1000 80 1200 118 Q1340 135 1440 110 L1440 140 L0 140 Z" fill="#fdf6e8"/>
+    </svg>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="hero-stats">
+    <div class="h-stat"><div class="h-stat-num">12</div><div class="h-stat-label">Projects</div></div>
+    <div class="h-stat"><div class="h-stat-num">5</div><div class="h-stat-label">Certs</div></div>
+    <div class="h-stat"><div class="h-stat-num">3+</div><div class="h-stat-label">Years</div></div>
+    <div class="h-stat"><div class="h-stat-num">∞</div><div class="h-stat-label">Curiosity</div></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="s-wrap">
+    <div class="s-eyebrow fade-up"><span class="s-chip">🛡 01 — Work</span><div class="s-line"></div></div>
+    <h2 class="s-heading fade-up">Selected Projects</h2>
+    <p class="s-sub fade-up">Things I've built, investigated, and defended.</p>
+    <div class="proj-grid">
+
+      <div class="proj-card fade-up">
+        <div class="proj-top">
+          <div class="proj-icon">🔭</div>
+          <span class="proj-type">SIEM / Logs</span>
+        </div>
+        <h3 class="proj-title">Home Lab SIEM with Elastic Stack</h3>
+        <p class="proj-desc">Full log aggregation pipeline ingesting Windows Event Logs and Linux syslog into Elasticsearch. Detection rules mapped to MITRE ATT&CK for lateral movement techniques.</p>
+        <div class="proj-tech">
+          <span class="tech-tag">Elastic SIEM</span><span class="tech-tag">Logstash</span>
+          <span class="tech-tag">Kibana</span><span class="tech-tag">Winlogbeat</span>
+        </div>
+        <div class="proj-footer">
+          <a href="#" class="proj-link">View on GitHub →</a>
+          <span class="proj-status"><span class="s-dot"></span>Active</span>
+        </div>
+      </div>
+
+      <div class="proj-card fade-up">
+        <div class="proj-top">
+          <div class="proj-icon">🔍</div>
+          <span class="proj-type">Threat Hunting</span>
+        </div>
+        <h3 class="proj-title">PowerShell Obfuscation Detector</h3>
+        <p class="proj-desc">Python script parsing Windows Event ID 4104, flagging obfuscated PowerShell via entropy analysis and known evasion patterns. Reduces analyst triage time significantly.</p>
+        <div class="proj-tech">
+          <span class="tech-tag">Python</span><span class="tech-tag">Windows Events</span>
+          <span class="tech-tag">Entropy Analysis</span>
+        </div>
+        <div class="proj-footer">
+          <a href="#" class="proj-link">View on GitHub →</a>
+          <span class="proj-status"><span class="s-dot"></span>Active</span>
+        </div>
+      </div>
+
+      <div class="proj-card fade-up">
+        <div class="proj-top">
+          <div class="proj-icon">🌊</div>
+          <span class="proj-type">Network Security</span>
+        </div>
+        <h3 class="proj-title">Network Traffic Anomaly Dashboard</h3>
+        <p class="proj-desc">Zeek deployed on a home network tap, feeding parsed logs into Grafana. Visualises DNS tunneling, unusual port activity, and beaconing in near real-time.</p>
+        <div class="proj-tech">
+          <span class="tech-tag">Zeek</span><span class="tech-tag">Grafana</span>
+          <span class="tech-tag">InfluxDB</span>
+        </div>
+        <div class="proj-footer">
+          <a href="#" class="proj-link">View on GitHub →</a>
+          <span class="proj-status"><span class="s-dot"></span>Active</span>
+        </div>
+      </div>
+
+      <div class="proj-card fade-up">
+        <div class="proj-top">
+          <div class="proj-icon">📜</div>
+          <span class="proj-type">Incident Response</span>
+        </div>
+        <h3 class="proj-title">IR Playbook Automation</h3>
+        <p class="proj-desc">Python-based automated response playbooks integrated with Splunk alerts. On trigger: auto-isolates endpoint via API, collects triage artifacts, and opens a JIRA ticket.</p>
+        <div class="proj-tech">
+          <span class="tech-tag">Python</span><span class="tech-tag">Splunk</span>
+          <span class="tech-tag">SOAR</span><span class="tech-tag">JIRA API</span>
+        </div>
+        <div class="proj-footer">
+          <a href="#" class="proj-link">View on GitHub →</a>
+          <span class="proj-status"><span class="s-dot"></span>Active</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <!-- Night sky deco -->
+  <div class="night-deco" aria-hidden="true">
+    <svg style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.18" viewBox="0 0 1440 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <!-- rolling hills top -->
+      <path d="M0 60 Q200 0 400 40 Q600 80 800 20 Q1000 -20 1200 40 Q1350 70 1440 25 L1440 0 L0 0 Z" fill="#fdf6e8"/>
+      <!-- scattered stars -->
+      <circle cx="100" cy="120" r="1.5" fill="#e8c46a"/><circle cx="300" cy="80" r="1" fill="#e8c46a"/>
+      <circle cx="500" cy="150" r="2" fill="#e8c46a"/><circle cx="700" cy="90" r="1.5" fill="#e8c46a"/>
+      <circle cx="900" cy="130" r="1" fill="#e8c46a"/><circle cx="1100" cy="70" r="2" fill="#e8c46a"/>
+      <circle cx="1300" cy="110" r="1.5" fill="#e8c46a"/><circle cx="200" cy="200" r="1" fill="#a8cef0"/>
+      <circle cx="600" cy="220" r="1.5" fill="#a8cef0"/><circle cx="1000" cy="180" r="1" fill="#a8cef0"/>
+      <!-- lantern shapes -->
+      <ellipse cx="180" cy="160" rx="8" ry="12" fill="#e8c46a" opacity="0.25"/>
+      <rect x="176" y="172" width="8" height="4" rx="2" fill="#e8c46a" opacity="0.2"/>
+      <ellipse cx="1260" cy="140" rx="8" ry="12" fill="#e8c46a" opacity="0.25"/>
+      <rect x="1256" y="152" width="8" height="4" rx="2" fill="#e8c46a" opacity="0.2"/>
+    </svg>
+  </div>
+  <div class="s-wrap" style="position:relative;z-index:1;">
+    <div class="s-eyebrow fade-up"><span class="s-chip" style="color:var(--gold);background:rgba(232,196,106,0.1);border-color:rgba(232,196,106,0.25)">🌟 02 — Credentials</span><div class="s-line"></div></div>
+    <h2 class="s-heading fade-up">Certifications</h2>
+    <p class="s-sub fade-up">Verified knowledge, ongoing learning.</p>
+    <div class="certs-grid">
+
+      <div class="cert-card fade-up">
+        <div class="cert-top"><span class="cert-issuer">CompTIA</span><span class="cert-year">2024</span></div>
+        <div class="cert-name">CompTIA Security+</div>
+        <div class="cert-desc">Core security concepts, threats, access control, cryptography, and network security fundamentals.</div>
+        <a href="#" class="cert-link">Verify ↗</a>
+      </div>
+
+      <div class="cert-card fade-up">
+        <div class="cert-top"><span class="cert-issuer">CompTIA</span><span class="cert-year">2024</span></div>
+        <div class="cert-name">CompTIA CySA+</div>
+        <div class="cert-desc">Behavioral analytics, threat intelligence, blue team operations including SIEM, vulnerability management, and IR.</div>
+        <a href="#" class="cert-link">Verify ↗</a>
+      </div>
+
+      <div class="cert-card fade-up">
+        <div class="cert-top"><span class="cert-issuer">Blue Team Labs</span><span class="cert-year">2023</span></div>
+        <div class="cert-name">BTL1 — Blue Team Level 1</div>
+        <div class="cert-desc">Hands-on defensive security covering phishing, SIEM, digital forensics, and incident response.</div>
+        <a href="#" class="cert-link">Verify ↗</a>
+      </div>
+
+      <div class="cert-card fade-up">
+        <div class="cert-top"><span class="cert-issuer">Google / Coursera</span><span class="cert-year">2023</span></div>
+        <div class="cert-name">Google Cybersecurity Certificate</div>
+        <div class="cert-desc">Security foundations, network security, Linux, SQL, Python, SIEM tools, and IDS/IPS fundamentals.</div>
+        <a href="#" class="cert-link">Verify ↗</a>
+      </div>
+
+      <div class="cert-card fade-up">
+        <div class="cert-top"><span class="cert-issuer">EC-Council</span><span class="cert-year">2023</span></div>
+        <div class="cert-name">Certified SOC Analyst (CSA)</div>
+        <div class="cert-desc">SOC operations, monitoring, log management, SIEM deployment, triage workflows, and escalation procedures.</div>
+        <a href="#" class="cert-link">Verify ↗</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="s-wrap">
+    <div class="s-eyebrow fade-up"><span class="s-chip">🍃 03 — Background</span><div class="s-line"></div></div>
+    <h2 class="s-heading fade-up">About Me</h2>
+    <div class="about-grid">
+      <div class="about-text fade-up">
+        <p>Write something real here — who you are, what drew you to blue team security, and what kind of threats you find most interesting to hunt and defend against.</p>
+        <p>Where are you based? What's your day-to-day like? Do you run a home lab, join CTFs, or contribute to threat intel communities? These details make a difference.</p>
+        <p>What are you currently working toward? A new cert, a research project, cloud detection, malware analysis, or digital forensics?</p>
+      </div>
+      <div class="skills-panel fade-up">
+        <div class="skill-group">
+          <div class="skill-group-label"><span>🛡</span> Defence & Detection</div>
+          <div class="skill-pills">
+            <span class="skill-pill">SIEM (Splunk / Elastic)</span>
+            <span class="skill-pill">IDS/IPS</span>
+            <span class="skill-pill">Threat Hunting</span>
+            <span class="skill-pill">MITRE ATT&CK</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label"><span>🔬</span> IR & Forensics</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Log Analysis</span>
+            <span class="skill-pill">Memory Forensics</span>
+            <span class="skill-pill">Volatility</span>
+            <span class="skill-pill">Autopsy</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-label"><span>⚙️</span> Scripting & Tools</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Python</span>
+            <span class="skill-pill">Bash</span>
+            <span class="skill-pill">Wireshark</span>
+            <span class="skill-pill">Zeek</span>
+            <span class="skill-pill">Nessus</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="s-wrap">
+    <div class="s-eyebrow fade-up"><span class="s-chip">✉ 04 — Connect</span><div class="s-line"></div></div>
+    <h2 class="s-heading fade-up">Let's talk.</h2>
+    <p class="s-sub fade-up">Open to opportunities, collaborations, and CTF teams 🏮</p>
+    <div class="contact-grid">
+      <a href="mailto:you@email.com" class="contact-card fade-up">
+        <div class="contact-card-icon">✉️</div>
+        <div class="contact-card-label">Email</div>
+        <div class="contact-card-value">you@email.com</div>
+        <div class="contact-card-arrow">→</div>
+      </a>
+      <a href="https://github.com/yourusername" target="_blank" class="contact-card fade-up">
+        <div class="contact-card-icon">🐙</div>
+        <div class="contact-card-label">GitHub</div>
+        <div class="contact-card-value">github.com/yourusername</div>
+        <div class="contact-card-arrow">→</div>
+      </a>
+      <a href="https://linkedin.com/in/yourusername" target="_blank" class="contact-card fade-up">
+        <div class="contact-card-icon">🔗</div>
+        <div class="contact-card-label">LinkedIn</div>
+        <div class="contact-card-value">linkedin.com/in/yourusername</div>
+        <div class="contact-card-arrow">→</div>
+      </a>
+      <a href="resume.pdf" target="_blank" class="contact-card fade-up">
+        <div class="contact-card-icon">📄</div>
+        <div class="contact-card-label">Resume / CV</div>
+        <div class="contact-card-value">Download PDF</div>
+        <div class="contact-card-arrow">→</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Your Name</span>
+  <span>Defending the perimeter with <em>heart</em> · GitHub Pages</span>
+</footer>
+
+<script>
+  // Generate twinkling stars
+  const field = document.getElementById('stars');
+  for (let i = 0; i < 55; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 1;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      top:${Math.random()*100}%;
+      left:${Math.random()*100}%;
+      --dur:${2.5 + Math.random()*4}s;
+      --delay:${Math.random()*4}s;
+      opacity:0.2;
+    `;
+    field.appendChild(s);
+  }
+
+  // Scroll fade-in
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('show'), i * 80);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
